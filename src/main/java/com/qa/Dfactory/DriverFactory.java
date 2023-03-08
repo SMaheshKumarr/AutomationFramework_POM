@@ -15,6 +15,8 @@ public class DriverFactory {
 
 	public WebDriver driver;
 	public Properties prop;
+	public OptionsManager optionsManager;
+	public static String highlight;
 
 	/**
 	 * 
@@ -23,21 +25,25 @@ public class DriverFactory {
 	 */
 	public WebDriver initDriver(Properties prop) {
 		
+		optionsManager=new OptionsManager(prop);
+		
 		String browserName = prop.getProperty("browser").toLowerCase().trim();
+		highlight=prop.getProperty("highlight").trim();
+		
 		
 		System.out.println("Browser Name Is" + " " + browserName);
 
 		if (browserName.equalsIgnoreCase("chrome")) {
-			driver = new ChromeDriver();
+			driver = new ChromeDriver(optionsManager.getChromeOptions());
 		}
 		else if (browserName.equalsIgnoreCase("firefox")) {
-			driver = new FirefoxDriver();
+			driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
 		}
 		else if (browserName.equalsIgnoreCase("safari")) {
-			driver = new SafariDriver();
+			driver = new SafariDriver(optionsManager.getSafariOptions());
 		}
 		else if (browserName.equalsIgnoreCase("Edge")) {
-			driver = new EdgeDriver();
+			driver = new EdgeDriver(optionsManager.getEdgeOptions());
 		}
 		else {
 			System.out.println("please enter correct browser"+browserName);
@@ -66,4 +72,6 @@ public class DriverFactory {
 		}
 		return prop;
 	}
+	
+	
 }

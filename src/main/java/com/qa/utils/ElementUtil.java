@@ -20,18 +20,28 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.qa.Dfactory.DriverFactory;
+
 public class ElementUtil {
 
 	private WebDriver driver;
+	private JavascriptUtil jsUtil;
 
 	// ******Constructor*******//
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
+		jsUtil=new JavascriptUtil(driver);
 	}
 
 	// ******To Get Individual Element*******//
 	public WebElement getElement(By locator) {
-		return driver.findElement(locator);
+		
+		 WebElement element = driver.findElement(locator);
+		 if(Boolean.parseBoolean(DriverFactory.highlight)) {
+			 jsUtil.flash(element); 
+		 }
+	
+		 return element;
 
 	}
 
